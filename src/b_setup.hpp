@@ -7,7 +7,7 @@ PUSH_NO_WARNINGS
     #if BOARD < 1000
         #include "avr8-stub.h"
     #else
-        #error "Debugging not supported on this platform"
+        //#error "Debugging not supported on this platform"
     #endif
 POP_NO_WARNINGS
 #endif
@@ -83,7 +83,7 @@ void setup()
     debug_init();  // Setup avr-stub
     breakpoint();  // Set a breakpoint as soon as possible
     #else
-        #error "Debugging not supported on this platform"
+        //#error "Debugging not supported on this platform"
     #endif
 #else
     Serial.begin(SERIAL_BAUDRATE);
@@ -132,7 +132,9 @@ void setup()
 #if RA_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
     // include TMC2209 UART pins
     pinMode(RA_DIAG_PIN, INPUT);
-    #ifdef RA_SERIAL_PORT
+    #if defined(RA_SERIAL_PORT) && defined(RA_SERIAL_PORT_RX)
+    RA_SERIAL_PORT.begin(57600, SERIAL_8N1, RA_SERIAL_PORT_RX, RA_SERIAL_PORT_TX);  // Start HardwareSerial comms with driver
+    #elif defined(RA_SERIAL_PORT)
     RA_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
     #endif
 #endif
@@ -152,7 +154,9 @@ void setup()
 #if DEC_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
     // include TMC2209 UART pins
     pinMode(DEC_DIAG_PIN, INPUT);
-    #ifdef DEC_SERIAL_PORT
+    #if defined(DEC_SERIAL_PORT) && defined(DEC_SERIAL_PORT_RX)
+    DEC_SERIAL_PORT.begin(57600, SERIAL_8N1, DEC_SERIAL_PORT_RX, DEC_SERIAL_PORT_TX);  // Start HardwareSerial comms with driver
+    #elif defined(DEC_SERIAL_PORT)
     DEC_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
     #endif
 #endif
@@ -163,8 +167,10 @@ void setup()
     #if AZ_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
     // include TMC2209 UART pins
     pinMode(AZ_DIAG_PIN, INPUT);
-        #ifdef AZ_SERIAL_PORT
-    AZ_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
+        #if defined(AZ_SERIAL_PORT) && defined(AZ_SERIAL_PORT_RX)
+        AZ_SERIAL_PORT.begin(57600, SERIAL_8N1, AZ_SERIAL_PORT_RX, AZ_SERIAL_PORT_TX);  // Start HardwareSerial comms with driver
+        #elif defined(AZ_SERIAL_PORT)
+        AZ_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
         #endif
     #endif
 #endif
@@ -175,8 +181,10 @@ void setup()
     #if ALT_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
     // include TMC2209 UART pins
     pinMode(ALT_DIAG_PIN, INPUT);
-        #ifdef ALT_SERIAL_PORT
-    ALT_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
+        #if defined(ALT_SERIAL_PORT) && defined(ALT_SERIAL_PORT_RX)
+        ALT_SERIAL_PORT.begin(57600, SERIAL_8N1, ALT_SERIAL_PORT_RX, ALT_SERIAL_PORT_TX);  // Start HardwareSerial comms with driver
+        #elif defined(ALT_SERIAL_PORT)
+        ALT_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
         #endif
     #endif
 #endif
@@ -187,9 +195,13 @@ void setup()
     digitalWrite(FOCUS_EN_PIN, HIGH);  // Logic HIGH to disable the driver initally
     #if FOCUS_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
         // include TMC2209 UART pins
-        #ifdef FOCUS_SERIAL_PORT
-    LOG(DEBUG_FOCUS, "[FOCUS]: setup(): focus TMC2209U starting comms");
-    FOCUS_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
+        
+        #if defined(FOCUS_SERIAL_PORT) && defined(FOCUS_SERIAL_PORT_RX)
+        LOG(DEBUG_FOCUS, "[FOCUS]: setup(): focus TMC2209U starting comms with RXTX Pins");
+        FOCUS_SERIAL_PORT.begin(57600, SERIAL_8N1, FOCUS_SERIAL_PORT_RX, FOCUS_SERIAL_PORT_TX);  // Start HardwareSerial comms with driver
+        #elif defined(ALT_SERIAL_PORT)
+        LOG(DEBUG_FOCUS, "[FOCUS]: setup(): focus TMC2209U starting comms");
+        FOCUS_SERIAL_PORT.begin(57600);  // Start HardwareSerial comms with driver
         #endif
     #endif
 #endif
@@ -332,8 +344,9 @@ void setup()
 
 #if RA_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART
     LOG(DEBUG_ANY, "[STEPPERS]: Configure RA driver TMC2209 UART...");
-    #if SW_SERIAL_UART == 0
+    #if SW_SERIAL_UART == 0 
     mount.configureRAdriver(&RA_SERIAL_PORT, R_SENSE, RA_DRIVER_ADDRESS, RA_RMSCURRENT, RA_STALL_VALUE);
+    
     #elif SW_SERIAL_UART == 1
     mount.configureRAdriver(RA_SERIAL_PORT_RX, RA_SERIAL_PORT_TX, R_SENSE, RA_DRIVER_ADDRESS, RA_RMSCURRENT, RA_STALL_VALUE);
     #endif

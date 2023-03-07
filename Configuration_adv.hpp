@@ -580,7 +580,7 @@
 
 // Focuser
 #if (FOCUS_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
-    #if defined(ESP32)
+    #if defined(ESP32) && BOARD != BOARD_ESP32_S3_OAX
         #define FOCUS_SERIAL_PORT Serial2  // Can be shared with RA_SERIAL_PORT
     #elif defined(__AVR_ATmega2560__)
     // Uses SoftwareSerial
@@ -624,7 +624,7 @@
 #endif
 
 #ifndef DEBUG_SERIAL_BAUDRATE
-    #define DEBUG_SERIAL_BAUDRATE 115200
+    #define DEBUG_SERIAL_BAUDRATE 19200
 #endif
 
 #if defined(OAT_DEBUG_BUILD)
@@ -646,6 +646,6 @@
         #endif
         #define SUPPORT_SERIAL_CONTROL 0
     #else
-        #error "Debugging not supported on this platform"
+        //#error "Debugging not supported on this platform"
     #endif
 #endif

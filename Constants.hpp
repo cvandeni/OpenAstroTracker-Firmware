@@ -17,7 +17,8 @@
 #define BOARD_AVR_RAMPS         0005
 
 // ESP32 based boards
-#define BOARD_ESP32_ESP32DEV 1001
+#define BOARD_ESP32_ESP32DEV    1001
+#define BOARD_ESP32_S3_OAX      1002
 
 /**
  * Supported display types. Use one of these values for DISPLAY_TYPE configuration matching your used display.

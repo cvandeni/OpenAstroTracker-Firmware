@@ -246,6 +246,8 @@
     #include "boards/RAMPS/pins_RAMPS.hpp"
 #elif (BOARD == BOARD_ESP32_ESP32DEV)
     #include "boards/ESP32_ESP32DEV/pins_ESP32DEV.hpp"
+#elif (BOARD == BOARD_ESP32_S3_OAX)
+    #include "boards/ESP32_S3_OAx/pins_ESP32_S3_OAx.hpp"
 #elif (BOARD == BOARD_AVR_MKS_GEN_L_V1)
     #include "boards/AVR_MKS_GEN_L_V1/pins_MKS_GEN_L_V1.h"
 #elif (BOARD == BOARD_AVR_MKS_GEN_L_V2)

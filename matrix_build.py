@@ -18,6 +18,7 @@ BOARDS = [
     "mksgenlv1",
     "esp32",
     "ramps",
+    "esp32_s3_OAx"
 ]
 
 STEPPER_TYPES = [

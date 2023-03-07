@@ -67,7 +67,7 @@
     #else
         #error Defined an AZ driver, but no AZ stepper.
     #endif
-#elif defined(__AVR_ATmega2560__)
+#elif defined(__AVR_ATmega2560__) || BOARD == BOARD_ESP32_S3_OAX 
     // Azimuth configuration
     #if (AZ_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
         #ifndef AZ_DRIVER_ADDRESS
@@ -87,7 +87,7 @@
     #else
         #error Defined an ALT driver, but no ALT stepper.
     #endif
-#elif defined(__AVR_ATmega2560__)
+#elif defined(__AVR_ATmega2560__) || BOARD == BOARD_ESP32_S3_OAX 
     // Altitude configuration
     #if (ALT_DRIVER_TYPE == DRIVER_TYPE_TMC2209_UART)
         #ifndef ALT_DRIVER_ADDRESS
@@ -107,7 +107,7 @@
     #else
         #error Defined an Focus driver, but no Focus stepper.
     #endif
-#elif defined(__AVR_ATmega2560__)
+#elif defined(__AVR_ATmega2560__) || BOARD == BOARD_ESP32_S3_OAX 
     // Focus configuration
     #if (FOCUS_STEPPER_TYPE == DRIVER_TYPE_TMC2209_UART)
         #ifndef FOCUS_DRIVER_ADDRESS
